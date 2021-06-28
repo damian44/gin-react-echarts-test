@@ -1,6 +1,8 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/go-echarts/go-echarts/v2/charts"
@@ -16,7 +18,9 @@ func NewHub(line *charts.Line) *Hub {
 	server.Use(static.Serve("/", static.LocalFile("./client/build", true)))
 
 	server.GET("/chart", func(c *gin.Context) {
-		line.Render(c.Writer)
+		//line.Render(c.Writer)
+		//fmt.Printf("Json line: %+v \n", line.JSON())
+		c.JSON(http.StatusOK, line.JSON())
 	})
 
 	return &Hub{server: server}
